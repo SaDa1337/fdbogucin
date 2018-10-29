@@ -1,0 +1,82 @@
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{ var home = CurrentPage.Site(); }
+
+@if (home.Children.Any())
+{
+    <div class="main-navigation  animated with-dropdown-buttons">
+        <!-- navbar start -->
+        <!-- ================ -->
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+												
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <!-- main-menu -->
+                    <ul class="nav navbar-nav " style="width:100%">
+                        @foreach (var childPage in home.Children)
+                        {
+                            if (childPage.Children.Any())
+                            {
+                                <li class="dropdown @(childPage.IsAncestorOrSelf(CurrentPage) ? "active" : null) ">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        @childPage.Name
+                                    </a>
+                                    @childPages(childPage.Children)
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="@(childPage.IsAncestorOrSelf(CurrentPage) ? "active" : null)">
+                                    <a href="@childPage.Url">@childPage.Name</a>
+                                </li>
+                            }
+                        }
+                        <li class="catalog-nav">
+                            <a class="btn btn-default btn-catalog" href="@Umbraco.Media(home.catalog).umbracoFile">Katalog</a>
+                        </li>
+                    </ul>
+                    <!-- main menu end-->
+                </div>
+            </div>
+        </nav>
+        <!-- navbar end -->
+
+    </div>
+    <!-- main-navigation end -->
+}
+@helper childPages(dynamic pages)
+{
+    @* Ensure that we have a collection of pages *@
+    if (pages.Any())
+    {
+        @* Add in level for a CSS hook *@
+        <ul class="dropdown-menu">
+            @foreach (var childPage in pages)
+            {
+                if (childPage.Children.Any())
+                {
+                    <li class="dropdown @(childPage.IsAncestorOrSelf(CurrentPage) ? "active" : null) ">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            @childPage.Name
+                        </a>
+                        @childPages(childPage.Children)
+                    </li>
+                }
+                else
+                {
+                    <li class="@(childPage.IsAncestorOrSelf(CurrentPage) ? "active" : null)">
+                        <a href="@childPage.Url">@childPage.Name</a>
+                    </li>
+                }
+            }
+        </ul>
+    }
+}

@@ -1,0 +1,177 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    var home = CurrentPage.Site();
+    var logo = Umbraco.Media(home.siteLogo);
+}
+<!DOCTYPE html>
+
+
+<html dir="ltr" lang="pl">
+<head>
+    <!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="@CurrentPage.siteDescription">
+    <meta name="keywords" content="@CurrentPage.keywords">
+    <meta name="author" content="Maciej@Sadowski.org.pl">
+    <title>@CurrentPage.Name | @CurrentPage._siteTitle</title>
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="template/images/favicon.ico">
+
+    <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Raleway:700,400,300" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet" type="text/css">
+
+    @Styles.Render("~/bundles/styles")
+</head>
+<body class="no-trans front-page boxed" style="background-color: #b6b7bc">
+<div class="scrollToTop circle fadeToTop"><i class="icon-up-open-big"></i></div>
+
+<div class="page-wrapper">
+    <div class="header-container" style="padding-bottom: 0px;">
+
+
+        <!-- header-top start -->
+        <!-- classes: -->
+        <!-- "dark": dark version of header top e.g. class="header-top dark" -->
+        <!-- "colored": colored version of header top e.g. class="header-top colored" -->
+        <!-- ================ -->
+        <div class="header-top dark ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-3 col-sm-6 col-md-9">
+                        <!-- header-top-first start -->
+                        <!-- ================ -->
+                        <div class="header-top-first clearfix">
+                            <ul class="list-inline hidden-sm hidden-xs">
+                                <li><i class="fa fa-map-marker pr-5 pl-10"></i>@home.GetPropertyValue("address")</li>
+                                <li><i class="fa fa-phone pr-5 pl-10"></i>@home.GetPropertyValue("telefon")</li>
+                                <li><i class="fa fa-envelope-o pr-5 pl-10"></i><a style="color:#ffffff" href="mailto:@home.GetPropertyValue("email")">@home.GetPropertyValue("email")</a></li>
+                            </ul>
+                        </div>
+                        <!-- header-top-first end -->
+                    </div>
+                    <div id="cookiesDiv" class="col-xs-12 col-sm-6 col-md-3">
+
+                        <!-- header-top-second start -->
+                        <!-- ================ -->
+                        <div id="header-top-second" class="clearfix">
+
+                            <!-- header top dropdowns start -->
+                            <!-- ================ -->
+                            <div class="header-top-dropdown text-right">
+                                <div class="btn-group" style="margin-right: 10px;">Strona używa ciasteczek</div>
+                                <div class="btn-group">
+                                    <a id="cookiesOkBtn" class="btn btn-default btn-sm">Ok, rozumiem</a>
+                                </div>
+
+                            </div>
+                            <!--  header top dropdowns end -->
+                        </div>
+                        <!-- header-top-second end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-top end -->
+        <!-- header start -->
+        <!-- classes: -->
+        <!-- "fixed": enables fixed navigation mode (sticky menu) e.g. class="header fixed clearfix" -->
+        <!-- "dark": dark version of header e.g. class="header dark clearfix" -->
+        <!-- "full-width": mandatory class for the full-width menu layout -->
+        <!-- "centered": mandatory class for the centered logo layout -->
+        <!-- ================ -->
+        <header class="header  fixed  clearfix">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 ">
+                        <!-- header-first start -->
+                        <!-- ================ -->
+                        <div class="header-first clearfix">
+
+                            <div id="logo" class="logo">
+                                <a href="/">
+                                    <img src="@logo.umbracoFile" alt="@logo.GetFieldValue("alt")" title="@logo.GetFieldValue("title")" />
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- header-first end -->
+
+                    </div>
+                    <div class="col-md-9">
+
+                        <!-- header-second start -->
+                        <!-- ================ -->
+                        <div class="header-second clearfix">
+                            @{ Html.RenderPartial("MainNavigation"); }
+
+                        </div>
+                        <!-- header-second end -->
+
+                    </div>
+                </div>
+            </div>
+
+        </header>
+        <!-- header end -->
+    </div>
+
+    <!-- banner start -->
+    <!-- ================ -->
+    <div id="collapseMap" class="banner">
+        <!-- google map start -->
+        <!-- ================ -->
+        <div id="map-canvas"></div>
+        <!-- google maps end -->
+    </div>
+
+    <div id="page-start"></div>
+
+    @RenderBody()
+
+    <footer class="field">
+        <div class="container">
+            <div class="row">
+
+                @{ Html.RenderPartial("BottomNavigation"); }
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Javascripts -->
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=AIzaSyDUsdKS1abaw8SJ0W6bj_wl0Fd1guz02JM"></script>
+					
+@Scripts.Render("~/bundles/scripts.js")
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($.cookie("fdbogucin.pl_allowed_Cookies") && $.cookie("fdbogucin.pl_allowed_Cookies") === "1") {
+            $('#cookiesDiv').hide();
+        }
+        $('#cookiesOkBtn').click(function () {
+            $.cookie("fdbogucin.pl_allowed_Cookies", "1");
+            $('#cookiesDiv').hide();
+        });
+    })
+</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-19031480-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+</body>
+</html>

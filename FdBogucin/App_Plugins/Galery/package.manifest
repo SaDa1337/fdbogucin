@@ -1,0 +1,14 @@
+﻿{
+  "gridEditors": [
+    {
+      "name": "MyCode",
+      "alias": "mycode",
+      "view": "/app_plugins/galery/editor.html",
+      "icon": "icon-code",
+      "config": {
+        "color": "red",
+        "text-align": "right"
+      }
+    }
+  ]
+}

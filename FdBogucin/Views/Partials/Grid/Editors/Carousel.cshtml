@@ -1,0 +1,37 @@
+﻿
+@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+
+@{
+    Layout = "";
+}
+
+@if (Model.Items.Any())
+{
+    <div class="slideshow" style="margin-top: -40px;">
+
+        <!-- slider revolution start -->
+        <!-- ================ -->
+        <div class="slider-revolution-5-container">
+            <div id="slider-banner-fullwidth-big-height" class="slider-banner-boxedwidth rev_slider" data-version="5.0">
+                <ul class="slides">
+                    <!-- slide 1 start -->
+                    <!-- ================ -->
+                    @foreach (var item in Model.Items)
+                    {
+                        <li data-transition="fadefromright" data-slotamount="default" data-masterspeed="default" data-title="">
+
+                            <!-- main image -->
+                            <img src="@Umbraco.TypedMedia(item.GetValue<string>("image")).Url" alt="slidebg1" data-bgposition="center top" data-bgrepeat="no-repeat" data-bgfit="cover" class="rev-slidebg">
+
+
+                        </li>
+                    }
+                    <!-- slide 2 end -->
+                </ul>
+                <div class="tp-bannertimer"></div>
+            </div>
+        </div>
+        <!-- slider revolution end -->
+
+    </div>
+}

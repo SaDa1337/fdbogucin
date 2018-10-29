@@ -1,0 +1,24 @@
+﻿
+@inherits UmbracoViewPage<Lecoati.LeBlender.Extension.Models.LeBlenderModel>
+
+@{
+    Layout = "";
+}
+
+@if (Model.Items.Any())
+{
+    <div class="isotope-container row grid-space-10">
+
+        @foreach (var item in Model.Items)
+        {
+            <div class="col-md-3 col-sm-6 isotope-item">
+                <div class="image-box shadow bordered text-center mb-20">
+                    <div class="overlay-container overlay-visible">
+                        <img src="@Umbraco.TypedMedia(item.GetValue<string>("image")).Url" alt="@item.GetValue("alt")" title="@item.GetValue("title")">
+                        <a href="@Umbraco.TypedMedia(item.GetValue<string>("image")).Url" class="popup-img overlay-link" title="@item.GetValue("subtitle")"><i class="icon-plus-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
